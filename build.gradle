@@ -1,0 +1,95 @@
+buildscript {
+    ext.kotlin_version = '1.3.31'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+def versionObj = new Version(major: 0, minor: 0, revision: 1)
+
+apply plugin: 'kotlin'
+
+allprojects {
+    group 'bot.bricolo.kotlinmemer'
+    version versionObj.toString()
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.json:json:20180813'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation "com.squareup.okhttp3:okhttp:3.14.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+//noinspection GroovyAssignabilityCheck
+task sourcesForRelease(type: Copy) {
+    outputs.upToDateWhen { false }
+
+    from('src/main/kotlin') {
+        include '**/Version.java'
+        filter(ReplaceTokens, tokens: [
+                VERSION_MAJOR   : versionObj.major,
+                VERSION_MINOR   : versionObj.minor,
+                VERSION_REVISION: versionObj.revision,
+                COMMIT          : getCommitHash(),
+        ])
+    }
+    into 'build/filteredSrc'
+
+    includeEmptyDirs = false
+}
+
+//noinspection GroovyAssignabilityCheck
+task generateJavaSources(type: SourceTask) {
+    outputs.upToDateWhen { false }
+
+    def javaSources = sourceSets.main.allJava.filter {
+        it.name != 'Version.java'
+    }
+    source = javaSources + sourcesForRelease.destinationDir
+
+    dependsOn sourcesForRelease
+}
+
+compileJava {
+    outputs.upToDateWhen { false }
+
+    source = generateJavaSources.source
+    dependsOn generateJavaSources
+}
+
+shadowJar {
+    version = versionObj.toString()
+}
+
+class Version {
+    String major, minor, revision
+
+    String toString() {
+        "$major.$minor.$revision"
+    }
+}
+
+static def getCommitHash() {
+    def p = Runtime.getRuntime().exec("git rev-parse HEAD")
+    p.waitFor()
+    p.getIn().text.trim()
+}

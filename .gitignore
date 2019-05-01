@@ -1,0 +1,13 @@
+# JetBrains
+.idea
+
+# Gradle
+.gradle
+build
+out
+
+# Env
+*.env
+
+# My stuff
+*.nogit.*
