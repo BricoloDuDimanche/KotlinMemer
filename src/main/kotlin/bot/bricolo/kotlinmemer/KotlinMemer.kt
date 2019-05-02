@@ -382,10 +382,14 @@ class KotlinMemer(private val token: String) {
         val limit = response.headers().firstValue("x-ratelimit-limit").get().toLong()
         val reset = Date(response.headers().firstValue("x-ratelimit-reset").get().toLong())
 
+        val gRemaining = response.headers().firstValue("x-global-ratelimit-remaining").get().toLong()
+        val gLimit = response.headers().firstValue("x-global-ratelimit-limit").get().toLong()
+        val gReset = Date(response.headers().firstValue("x-global-ratelimit-reset").get().toLong())
+
         if (buckets.containsKey(endpoint)) {
-            buckets[endpoint]!!.update(limit, reset)
+            buckets[endpoint]!!.update(limit, reset, gLimit, gReset)
         } else {
-            buckets[endpoint] = Bucket(limit, remaining, reset)
+            buckets[endpoint] = Bucket(limit, remaining, reset, gLimit, gRemaining, gReset)
         }
 
         // Response
