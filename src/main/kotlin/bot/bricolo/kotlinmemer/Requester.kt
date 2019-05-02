@@ -13,7 +13,7 @@ internal object Requester {
 
     suspend fun request(url: String, params: Map<String, String>, token: String): HttpResponse<InputStream> {
         val builder = HttpRequest.newBuilder(URI.create("$url?${toQueryString(params)}"))
-                .setHeader("User-Agent", "KotlinMemer (https://github.com/BricoloDuDimanche/KotlinMemer, ${Version.VERSION})")
+                .setHeader("User-Agent", "KotlinMemer (https://github.com/BricoloDuDimanche/KotlinMemer, ${KMemerVersion.VERSION})")
                 .setHeader("Authorization", token)
                 .GET()
 

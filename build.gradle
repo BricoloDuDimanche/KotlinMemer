@@ -44,7 +44,7 @@ task sourcesForRelease(type: Copy) {
     outputs.upToDateWhen { false }
 
     from('src/main/kotlin') {
-        include '**/Version.java'
+        include '**/KMemerVersion.java'
         filter(ReplaceTokens, tokens: [
                 VERSION_MAJOR   : versionObj.major,
                 VERSION_MINOR   : versionObj.minor,
@@ -62,7 +62,7 @@ task generateJavaSources(type: SourceTask) {
     outputs.upToDateWhen { false }
 
     def javaSources = sourceSets.main.allJava.filter {
-        it.name != 'Version.java'
+        it.name != 'KMemerVersion.java'
     }
     source = javaSources + sourcesForRelease.destinationDir
 

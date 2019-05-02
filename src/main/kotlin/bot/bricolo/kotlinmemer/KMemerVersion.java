@@ -1,7 +1,7 @@
 package bot.bricolo.kotlinmemer;
 
 @SuppressWarnings({"ConstantConditions", "WeakerAccess", "unused"})
-public class Version {
+public class KMemerVersion {
     public static final String VERSION_MAJOR;
     public static final String VERSION_MINOR;
     public static final String VERSION_REVISION;
