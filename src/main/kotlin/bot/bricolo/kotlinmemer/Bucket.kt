@@ -36,8 +36,6 @@ class Bucket(private var limit: Long, private var remaining: Long, private var r
 
     @Synchronized
     private fun refill() {
-        println(reset.time)
-        println(Date().time)
         if (reset.time < Date().time) {
             remaining = limit
         }

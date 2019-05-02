@@ -34,7 +34,6 @@ class KotlinMemer(private val token: String) {
 
         // Response
         val code = response.statusCode()
-        println(code)
         return if (code == 200) response.body() else null
     }
 }
