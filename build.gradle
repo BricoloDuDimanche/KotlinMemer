@@ -18,6 +18,9 @@ def versionObj = new Version(major: 0, minor: 0, revision: 1)
 allprojects {
     group 'bot.bricolo.kotlinmemer'
     version versionObj.toString()
+
+    sourceCompatibility = 11
+    targetCompatibility = 11
 }
 
 repositories {
@@ -34,7 +37,7 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = 11
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
