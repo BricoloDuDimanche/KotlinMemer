@@ -6,8 +6,19 @@ import java.util.concurrent.TimeUnit
 
 class Bucket(
         private var limit: Long, private var remaining: Long, private var reset: Date,
-        private var gLimit: Long, private var gRemaining: Long, private var gReset: Date
+        gLimit: Long, gRemaining: Long, gReset: Date
 ) {
+    companion object {
+        private var gLimit: Long = 0
+        private var gRemaining: Long = 0
+        private var gReset: Date = Date()
+    }
+
+    init {
+        Bucket.gLimit = gLimit
+        Bucket.gRemaining = gRemaining
+        Bucket.gReset = gReset
+    }
 
     @Synchronized
     fun tryConsume(): Boolean {
@@ -37,8 +48,8 @@ class Bucket(
         refill()
         this.limit = limit
         this.reset = reset
-        this.gLimit = gLimit
-        this.gReset = gReset
+        Bucket.gLimit = gLimit
+        Bucket.gReset = gReset
     }
 
     @Synchronized
