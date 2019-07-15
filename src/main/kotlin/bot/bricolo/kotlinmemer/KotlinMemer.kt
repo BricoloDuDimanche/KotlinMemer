@@ -53,8 +53,8 @@ class KotlinMemer(private val token: String) {
         return request("bongocat", mapOf(Pair("avatar1", avatar1.toString())))
     }
 
-    suspend fun boo(text: String): InputStream? {
-        return request("boo", mapOf(Pair("text", text)))
+    suspend fun boo(text1: String, text2: String): InputStream? {
+        return request("boo", mapOf(Pair("text", "$text1, $text2")))
     }
 
     suspend fun brain(small: String, medium: String, big: String, verybig: String): InputStream? {
@@ -347,12 +347,12 @@ class KotlinMemer(private val token: String) {
         return request("walking", mapOf(Pair("text", text)))
     }
 
-    suspend fun wanted(avatar1: URI): InputStream? {
-        return request("wanted", mapOf(Pair("avatar1", avatar1.toString())))
+    suspend fun wanted(avatar: URI): InputStream? {
+        return request("wanted", mapOf(Pair("avatar1", avatar.toString())))
     }
 
-    suspend fun warp(avatar1: URI): InputStream? {
-        return request("warp", mapOf(Pair("avatar1", avatar1.toString())))
+    suspend fun warp(avatar: URI): InputStream? {
+        return request("warp", mapOf(Pair("avatar1", avatar.toString())))
     }
 
     suspend fun whodidthis(avatar1: URI): InputStream? {
@@ -365,6 +365,30 @@ class KotlinMemer(private val token: String) {
 
     suspend fun youtube(avatar1: URI, username1: String, text: String): InputStream? {
         return request("youtube", mapOf(Pair("avatar1", avatar1.toString()), Pair("username1", username1), Pair("text", text)))
+    }
+
+    suspend fun fuck(text1: String, text2: String): InputStream? {
+        return request("fuck", mapOf(Pair("text", "$text1,$text2")))
+    }
+
+    suspend fun goggles(avatar: URI): InputStream? {
+        return request("goggles", mapOf(Pair("avatar1", avatar.toString())))
+    }
+
+    suspend fun pretending(text: String, react: String): InputStream? {
+        return request("justpretending", mapOf(Pair("text", "$text,$react")))
+    }
+
+    suspend fun lick(text1: String, text2: String): InputStream? {
+        return request("lick", mapOf(Pair("text", "$text1,$text2")))
+    }
+
+    suspend fun violence(text: String): InputStream? {
+        return request("violence", mapOf(Pair("text", text)))
+    }
+
+    suspend fun dream(avatar: URI): InputStream? {
+        return request("dream", mapOf(Pair("avatar1", avatar.toString())))
     }
 
     // --------------
